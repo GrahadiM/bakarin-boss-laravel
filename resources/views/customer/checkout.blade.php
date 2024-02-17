@@ -18,32 +18,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <!-- Midtrans -->
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-    </script>
+    <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     <script>
-        const payButton = document.querySelector('#pay-button');
-        payButton.addEventListener('click', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            const payButton = document.getElementById('pay-button');
 
-            snap.pay('{{ $snapToken }}', {
-                // Optional
-                onSuccess: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    console.log(result)
-                },
-                // Optional
-                onPending: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    console.log(result)
-                },
-                // Optional
-                onError: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    console.log(result)
-                }
+            payButton.addEventListener('click', function() {
+                snap.pay('{{$snapToken}}');
             });
         });
     </script>
@@ -53,10 +34,10 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-8">
-                <h1 class="mb-4">Your Cart</h1>
+                <h1 class="mb-4">Checkout</h1>
             </div>
             <div class="col-lg-4 justify-content-end">
-                <a href="{{ route('menu') }}" class="btn btn-outline-danger mb-3"><i class="fas fa-arrow-left"></i> Kembali ke Menu</a>
+                <a href="{{ route('index') }}" class="btn btn-outline-danger mb-3"><i class="fas fa-arrow-left"></i> Kembali ke Index</a>
             </div>
         </div>
         <div class="row">
@@ -72,11 +53,10 @@
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Total</th>
-                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($cart as $item)
+                                    @forelse ($orderP as $item)
                                         <tr>
                                             <td>
                                                 <a href="{{ asset('product') .'/'. $item->product->thumbnail }}" target="_blank" rel="noopener noreferrer">
@@ -89,29 +69,7 @@
                                                 <input type="number" class="form-control d-inline w-25" value="{{ $item->qty }}" disabled>
                                             </td>
                                             <td>{{ "Rp." .number_format($item->product->price*$item->qty, 2, ",", ".") }}</td>
-                                            <td>
-                                                <!-- Button minus -->
-                                                <a href="{{ route('minus_cart') }}" class="btn btn-sm btn-danger" onclick="event.preventDefault(); document.getElementById('minus_cart_{{ $item->id }}').submit();">
-                                                    <i class="fa fas fa-minus"></i>
-                                                </a>
-                                                <!-- Button plus -->
-                                                <a href="{{ route('plus_cart') }}" class="btn btn-sm btn-success" onclick="event.preventDefault(); document.getElementById('plus_cart_{{ $item->id }}').submit();">
-                                                    <i class="fa fas fa-plus"></i>
-                                                </a>
-                                            </td>
                                         </tr>
-
-                                        <form id="minus_cart_{{ $item->id }}" action="{{ route('minus_cart') }}" method="POST" style="display: none;">
-                                            @csrf
-
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                        </form>
-
-                                        <form id="plus_cart_{{ $item->id }}" action="{{ route('plus_cart') }}" method="POST" style="display: none;">
-                                            @csrf
-
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                        </form>
                                     @empty
                                     <tr>
                                         <td colspan="5" class="text-center">Data Tidak Ada!</td>
@@ -124,18 +82,22 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="{{ route('post_checkout') }}" method="POST">
-                    @csrf
+                {{-- <form action="{{ route('post_checkout') }}" method="POST" enctype="multipart/form-data"> --}}
+                    {{-- @csrf --}}
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title mb-2">Detail</h5>
                             <div class="mb-2">
+                                <label class="form-label">Code Order:</label>
+                                <input type="text" name="code_order" class="form-control" value="{{ $order->code_order }}" disabled>
+                            </div>
+                            <div class="mb-2">
                                 <label class="form-label">Phone:</label>
-                                <input type="text" name="phone" class="form-control">
+                                <input type="text" name="phone" class="form-control" value="{{ '+62'.$order->phone }}" disabled>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Address:</label>
-                                <input type="text" name="address" class="form-control">
+                                <input type="text" name="address" class="form-control" value="{{ $order->address }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -145,7 +107,7 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Total Harga
-                                    <span>{{ "Rp." .number_format($total, 2, ",", ".") }}</span>
+                                    <span>{{ "Rp." .number_format($order->total, 2, ",", ".") }}</span>
                                 </li>
                             </ul>
                             @if ($order->payment_status == 1)
@@ -155,7 +117,7 @@
                             @endif
                         </div>
                     </div>
-                </form>
+                {{-- </form> --}}
             </div>
         </div>
     </div>

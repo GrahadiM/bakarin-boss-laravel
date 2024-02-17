@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('address');
             $table->enum('status',['paid','unpaid'])->default('paid');
             $table->enum('payment_status', ['1', '2', '3'])->default('1')->comment('1=menunggu pembayaran, 2=sudah dibayar, 3=kadaluarsa');
+            $table->string('link_pembayaran')->nullable();
             $table->string('snap_token', 36)->nullable();
             $table->timestamps();
         });

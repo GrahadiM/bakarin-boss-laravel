@@ -20,6 +20,9 @@ Route::controller(App\Http\Controllers\FrontendController::class)->group(functio
         Route::get('/checkout/{id}', 'checkout')->name('checkout');
         Route::post('/post_checkout', 'post_checkout')->name('post_checkout');
         Route::get('/payment/{id}', 'payment')->name('payment');
+        Route::post('/midtrans_notify', 'midtrans_notify')->name('midtrans_notify');
+        Route::post('/midtrans_pay', 'midtrans_pay')->name('midtrans_pay');
+        Route::post('/payments_finish', 'payments_finish')->name('payments_finish');
     });
 });
 Route::post('payments/midtrans-notification', [App\Http\Controllers\PaymentCallbackController::class, 'receive']);

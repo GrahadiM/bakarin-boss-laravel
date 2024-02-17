@@ -19,11 +19,12 @@ class SettingHelper
         $midtrans_mode       = env('MIDTRANS_MODE');
 
         if($midtrans_mode == 'sanbox'){
-            $data = [
-                'client' => $midtrans_client_key,
-                'server' => $midtrans_server_key,
-            ]
-            return $data;
+            // $data = [
+            //     'client' => $midtrans_client_key,
+            //     'server' => $midtrans_server_key,
+            // ]
+            // return $data;
+            return $midtrans_sanbox;
         }
         
         if($midtrans_mode == 'production'){

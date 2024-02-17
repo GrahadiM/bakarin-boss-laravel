@@ -94,18 +94,18 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="{{ route('post_checkout') }}" method="POST">
+                <form action="{{ route('post_checkout') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title mb-2">Detail</h5>
                             <div class="mb-2">
                                 <label class="form-label">Phone:</label>
-                                <input type="text" name="phone" class="form-control">
+                                <input type="text" name="phone" class="form-control" required>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Address:</label>
-                                <input type="text" name="address" class="form-control">
+                                <input type="text" name="address" class="form-control" required>
                             </div>
                         </div>
                     </div>

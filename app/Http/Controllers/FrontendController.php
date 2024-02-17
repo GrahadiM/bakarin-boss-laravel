@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Midtrans\Config;
 use App\Models\Cart;
+use Midtrans\Config;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use App\Helper\SettingHelper;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Midtrans\CreateSnapTokenService;
 
@@ -113,15 +114,16 @@ class FrontendController extends Controller
 
     public function checkout($id) {
         $data['total']  = 0;
-        $data['order']  = Order::where('customer_id', Auth::user()->id)->where('id',$id)->get();
-        
+        $data['order']  = Order::where('customer_id', Auth::user()->id)->where('id',$id)->first();
+        $data['orderP'] = OrderProduct::where('order_id',$id)->get();
+
         $data['snapToken'] = $data['order']->snap_token;
         if (is_null($data['snapToken'])) {
             // Jika snap token masih NULL, buat token snap dan simpan ke database
-            
+
             $midtrans = new CreateSnapTokenService($data['order']);
             $data['snapToken'] = $midtrans->getSnapToken();
-            
+
             $data['order']->snap_token = $data['snapToken'];
             $data['order']->save();
         }
@@ -142,7 +144,7 @@ class FrontendController extends Controller
         foreach ($cart as $item){
             $total  += $item->product->price*$item->qty;
         }
-        $total_price = $total+5000;
+        $total_price = $total;
 
         // insert to table order
         $order->code_order  = 'TRX-'.mt_rand(1000,9999).time();
@@ -153,67 +155,116 @@ class FrontendController extends Controller
         $order->address     = Str::ucfirst($request->address);
         $order->save();
 
-        // insert to table order product
         foreach ($cart as $item){
             $orderProd->order_id    = $order->id;
             $orderProd->product_id  = $item->id;
             $orderProd->qty         = $item->qty;
             $orderProd->save();
 
-            Cart::destroy($item->id);
+            // $cart_id = Cart::find($item->id);
+            // $cart_id->delete();
         }
 
-        return redirect()->route('checkout', $order->id);
+        return redirect()->route('payment', $order->id);
     }
 
     public function payment(Request $request, $id)
     {
-        $trx    = Order::with('user')->find($id);
-        $orders = OrderProduct::where('order_id',$trx->id)->get();
-        $user   = Auth::user()->id;
+        $atr    = Order::find($id);
+        $atr->snap_token = $request->snap_token == NULL ? mt_rand(00000, 99999).time() : $request->snap_token;
+        $atr->update();
+        $orders = OrderProduct::where('order_id',$atr->id)->get();
+        $customer = Auth::user();
 
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        \Midtrans\Config::$isProduction = false;
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
+        //Set Your server key
+        Config::$serverKey = SettingHelper::midtrans_api();
+        // Uncomment for production environment
+        // Config::$isProduction = true;
+        Config::$isSanitized = Config::$is3ds = true;
+        Config::$overrideNotifUrl = route('midtrans_notify');
 
-        $trx_details = array(
-            'transaction_details' => array(
-                'order_id' => $trx->code_order,
-                'gross_amount' => round($trx->total),
-            )
+        $transaction_details = array(
+            'order_id'     => $atr->code_order,
+            'gross_amount' => round($atr->total),
         );
 
+        // dd($orders);
         $item_details = [];
         foreach($orders as $order) {
-            $data = $order->product;
+            $product = Product::where('id',$order->id)->first();
             $item = array(
-                'id'        => $data->id,
-                'price'     => $data->price,
-                'quantity'  => 1,
-                'name'      => $data->name
+                'id'       => $order->id,
+                'price'    => $order->qty*$product->price,
+                'quantity' => $order->qty,
+                'name'     => $product->name
             );
             array_push($item_details, $item);
         }
-        // dd($item_details);
 
-        $user_details = array(
-            'first_name'    => $user->name,
+        // Optional
+        // $billing_address = array(
+        //     'first_name'    => "Andri",
+        //     'last_name'     => "Litani",
+        //     'address'       => "Mangga 20",
+        //     'city'          => "Jakarta",
+        //     'postal_code'   => "16602",
+        //     'phone'         => "081122334455",
+        //     'country_code'  => 'IDN'
+        // );
+
+        // Optional
+        // $shipping_address = array(
+        //     'first_name'    => "Obet",
+        //     'last_name'     => "Supriadi",
+        //     'address'       => "Manggis 90",
+        //     'city'          => "Jakarta",
+        //     'postal_code'   => "16601",
+        //     'phone'         => "08113366345",
+        //     'country_code'  => 'IDN'
+        // );
+
+        $customer_details = array(
+            'first_name'    => $customer->name,
             'last_name'     => '',
-            'email'         => $trx->email,
-            'phone'         => $trx->phone
+            'email'         => $customer->email,
+            'phone'         => $customer->phone,
         );
-        // dd($user_details);
+
+        // Optional, remove this to display all available payment methods
+        // $enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
 
         $params = [
-            'transaction_details'   => $trx_details,
-            'item_details'          => $item_details,
-            'customer_details'      => $user_details,
+            'transaction_details' => $transaction_details,
+            'item_details'        => $item_details,
+            'customer_details'    => $customer_details,
+            'callbacks'           => [
+                'finish'          => route('index')
+                // 'finish'          => route('payments_finish')
+            ]
         ];
+        // dd($params);
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        dd($snapToken);
-        return view('customer.payment', $data);
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            $atr->link_pembayaran = $paymentUrl;
+            $atr->update();
+            // dd($paymentUrl);
+            return redirect($paymentUrl);
+        }
+        catch (Exception $e) {
+            return dd($e->getMessage());
+        }
+    }
+
+    public function invoice(Request $request, $id)
+    {
+        $data['transaksi'] = Order::with('customer')->where([
+			['customer_id', Auth::user()->id],
+            ['id', $id],
+		])->latest('id')->first();
+        $data['items'] = OrderProduct::where('transaction_id', $data['transaksi']->id)->get();
+
+        return view('frontend.invoice', $data);
     }
 }

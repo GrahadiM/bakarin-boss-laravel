@@ -29,7 +29,7 @@
                             <img src="{{ asset('product') .'/'. $item->thumbnail }}" alt="{{ $item->name }}" />
                         </div>
                         <div class="product-content">
-                            <h3 x-text="item.name"></h3>
+                            <h3 x-text="item.name">{{ $item->name }}</h3>
                             <div class="product-stars">
                                 <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <use href="{{ asset('customer') }}/img/feather-sprite.svg#star" />

@@ -10,7 +10,14 @@
         </p>
 
         <div class="row">
+            @foreach ($menu as $item)
             <div class="menu-card">
+                <img src="{{ asset('product') .'/'. $item->product->thumbnail }}" alt="{{ $item->product->name }}" class="menu-card-img" />
+                <h3 class="menu-card-title">{{ $item->product->name }}</h3>
+                <p class="menu-card-price">{{ "Rp." .number_format($item->product->price, 2, ",", ".") }}</p>
+            </div>
+            @endforeach
+            {{-- <div class="menu-card">
                 <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
                 <h3 class="menu-card-title">- Mexican Burger -</h3>
                 <p class="menu-card-price">IDR 20K</p>
@@ -24,12 +31,7 @@
                 <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
                 <h3 class="menu-card-title">- Mexican Burger -</h3>
                 <p class="menu-card-price">IDR 20K</p>
-            </div>
-            <div class="menu-card">
-                <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
-                <h3 class="menu-card-title">- Mexican Burger -</h3>
-                <p class="menu-card-price">IDR 20K</p>
-            </div>
+            </div> --}}
         </div>
     </section>
     <!-- Menu section end -->

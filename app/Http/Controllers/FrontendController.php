@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Helper\SettingHelper;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Midtrans\CreateSnapTokenService;
 
@@ -32,7 +33,20 @@ class FrontendController extends Controller
     }
 
     public function favorite() {
-        $data['menu'] = Product::all();
+        $data['menu'] = OrderProduct::select('product_id', DB::raw('SUM(qty) as total_quantity'))
+                        ->groupBy('product_id')
+                        ->orderByDesc('total_quantity')
+                        ->take(4)
+                        ->get();
+
+        $data['products'] = collect();
+        foreach ($data['menu'] as $item) {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $data['products']->push($product);
+            }
+        }
+        // $data['menu'] = OrderProduct::orderByDesc('qty')->take(4)->get();
 
         return view('customer.favorite', $data);
     }
@@ -135,18 +149,14 @@ class FrontendController extends Controller
     public function post_checkout(Request $request)
     {
         // dd($request->all());
-        $order      = new Order;
-        $orderProd  = new OrderProduct;
-        $total      = 0;
-
-        // calculate total price
-        $cart       = Cart::with('product')->where('customer_id', Auth::user()->id)->get();
-        foreach ($cart as $item){
-            $total  += $item->product->price*$item->qty;
+        $total  = 0;
+        $carts  = Cart::with('product')->where('customer_id', Auth::user()->id)->get();
+        foreach ($carts as $cart){
+            $total  += $cart->product->price*$cart->qty;
         }
         $total_price = $total;
 
-        // insert to table order
+        $order              = new Order;
         $order->code_order  = 'TRX-'.mt_rand(1000,9999).time();
         $order->customer_id = auth()->user()->id;
         $order->total       = (int)$total_price;
@@ -155,13 +165,15 @@ class FrontendController extends Controller
         $order->address     = Str::ucfirst($request->address);
         $order->save();
 
-        foreach ($cart as $item){
+        foreach ($carts as $cart){
+            $orderProd              = new OrderProduct;
             $orderProd->order_id    = $order->id;
-            $orderProd->product_id  = $item->id;
-            $orderProd->qty         = $item->qty;
+            $orderProd->product_id  = $cart->id;
+            $orderProd->qty         = $cart->qty;
             $orderProd->save();
 
-            // $cart_id = Cart::find($item->id);
+            Cart::destroy($cart->id);
+            // $cart_id = Cart::find($cart->id);
             // $cart_id->delete();
         }
 

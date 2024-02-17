@@ -12,32 +12,45 @@ use Illuminate\Http\Request;
 use App\Helper\SettingHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Services\Midtrans\CreateSnapTokenService;
 
 class FrontendController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('customer.index');
     }
 
-    public function about() {
+    public function about()
+    {
         return view('customer.about');
     }
 
-    public function blog() {
-        return view('customer.blog');
+    public function blog()
+    {
+        $response = Http::get('https://newsapi.org/v2/top-headlines', [
+            'sources' => 'bbc-news',
+            'apiKey' => 'c870899a748c4c2094754d6a43653c3e',
+        ]);
+
+        $data['articles'] = $response->json()['articles'];
+
+        return view('customer.blog', $data);
     }
 
-    public function contact() {
+    public function contact()
+    {
         return view('customer.contact');
     }
 
-    public function favorite() {
+    public function favorite()
+    {
         $data['menu'] = OrderProduct::select('product_id', DB::raw('SUM(qty) as total_quantity'))
-                        ->groupBy('product_id')
-                        ->orderByDesc('total_quantity')
-                        ->take(4)
-                        ->get();
+            ->groupBy('product_id')
+            ->orderByDesc('total_quantity')
+            ->take(4)
+            ->get();
 
         $data['products'] = collect();
         foreach ($data['menu'] as $item) {
@@ -51,32 +64,36 @@ class FrontendController extends Controller
         return view('customer.favorite', $data);
     }
 
-    public function menu() {
+    public function menu()
+    {
         $data['menu'] = Product::all();
 
         return view('customer.menu', $data);
     }
 
-    public function menuDetail($id) {
+    public function menuDetail($id)
+    {
         $data['item'] = Product::find($id);
 
         return view('customer.menuDetail', $data);
     }
 
-    public function cart(Request $request) {
+    public function cart(Request $request)
+    {
         $data['total'] = 0;
-        $data['cart']  = Cart::with('product')->where('customer_id', Auth::user()->id)->orderBy('id','DESC')->get();
-        foreach ($data['cart'] as $item){
-            $data['total'] += $item->product->price*$item->qty;
+        $data['cart']  = Cart::with('product')->where('customer_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        foreach ($data['cart'] as $item) {
+            $data['total'] += $item->product->price * $item->qty;
         }
 
         return view('customer.cart', $data);
     }
 
-    public function post_cart(Request $request) {
+    public function post_cart(Request $request)
+    {
         $data     = Cart::where('customer_id', Auth::user()->id)->where('product_id', $request->product_id)->first();
         $new      = false;
-        if (!$data){
+        if (!$data) {
             $data = new Cart();
             $new  = true;
         }
@@ -86,7 +103,7 @@ class FrontendController extends Controller
         if ($new) {
             $data->qty         = $qty;
             $data->customer_id = Auth::user()->id;
-        }else{
+        } else {
             $data->qty = $data->qty + $qty;
         }
 
@@ -126,10 +143,11 @@ class FrontendController extends Controller
         return redirect()->back();
     }
 
-    public function checkout($id) {
+    public function checkout($id)
+    {
         $data['total']  = 0;
-        $data['order']  = Order::where('customer_id', Auth::user()->id)->where('id',$id)->first();
-        $data['orderP'] = OrderProduct::where('order_id',$id)->get();
+        $data['order']  = Order::where('customer_id', Auth::user()->id)->where('id', $id)->first();
+        $data['orderP'] = OrderProduct::where('order_id', $id)->get();
 
         $data['snapToken'] = $data['order']->snap_token;
         if (is_null($data['snapToken'])) {
@@ -151,13 +169,13 @@ class FrontendController extends Controller
         // dd($request->all());
         $total  = 0;
         $carts  = Cart::with('product')->where('customer_id', Auth::user()->id)->get();
-        foreach ($carts as $cart){
-            $total  += $cart->product->price*$cart->qty;
+        foreach ($carts as $cart) {
+            $total  += $cart->product->price * $cart->qty;
         }
         $total_price = $total;
 
         $order              = new Order;
-        $order->code_order  = 'TRX-'.mt_rand(1000,9999).time();
+        $order->code_order  = 'TRX-' . mt_rand(1000, 9999) . time();
         $order->customer_id = auth()->user()->id;
         $order->total       = (int)$total_price;
         $order->status      = Str::lower('paid');
@@ -165,7 +183,7 @@ class FrontendController extends Controller
         $order->address     = Str::ucfirst($request->address);
         $order->save();
 
-        foreach ($carts as $cart){
+        foreach ($carts as $cart) {
             $orderProd              = new OrderProduct;
             $orderProd->order_id    = $order->id;
             $orderProd->product_id  = $cart->id;
@@ -183,9 +201,9 @@ class FrontendController extends Controller
     public function payment(Request $request, $id)
     {
         $atr    = Order::find($id);
-        $atr->snap_token = $request->snap_token == NULL ? mt_rand(00000, 99999).time() : $request->snap_token;
+        $atr->snap_token = $request->snap_token == NULL ? mt_rand(00000, 99999) . time() : $request->snap_token;
         $atr->update();
-        $orders = OrderProduct::where('order_id',$atr->id)->get();
+        $orders = OrderProduct::where('order_id', $atr->id)->get();
         $customer = Auth::user();
 
         //Set Your server key
@@ -202,11 +220,11 @@ class FrontendController extends Controller
 
         // dd($orders);
         $item_details = [];
-        foreach($orders as $order) {
-            $product = Product::where('id',$order->id)->first();
+        foreach ($orders as $order) {
+            $product = Product::where('id', $order->id)->first();
             $item = array(
                 'id'       => $order->id,
-                'price'    => $order->qty*$product->price,
+                'price'    => $order->qty * $product->price,
                 'quantity' => $order->qty,
                 'name'     => $product->name
             );
@@ -263,8 +281,7 @@ class FrontendController extends Controller
             $atr->update();
             // dd($paymentUrl);
             return redirect($paymentUrl);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return dd($e->getMessage());
         }
     }
@@ -272,9 +289,9 @@ class FrontendController extends Controller
     public function invoice(Request $request, $id)
     {
         $data['transaksi'] = Order::with('customer')->where([
-			['customer_id', Auth::user()->id],
+            ['customer_id', Auth::user()->id],
             ['id', $id],
-		])->latest('id')->first();
+        ])->latest('id')->first();
         $data['items'] = OrderProduct::where('transaction_id', $data['transaksi']->id)->get();
 
         return view('frontend.invoice', $data);

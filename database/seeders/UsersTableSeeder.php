@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
     {
         $admin = User::create([
             'name'              => 'Admin',
-            'phone'             => '085767113554',
+            'phone'             => '085848735124',
             'email'             => 'admin@test.com',
             'password'          => bcrypt('password'),
             'email_verified_at' => now(),
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
 
         $user = User::create([
             'name'              => 'Customer',
-            'phone'             => '085767113554',
+            'phone'             => '085848735124',
             'email'             => 'customer@test.com',
             'password'          => bcrypt('password'),
             'email_verified_at' => now(),

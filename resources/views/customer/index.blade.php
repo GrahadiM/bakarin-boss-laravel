@@ -110,6 +110,48 @@
             });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Ambil nilai order_id dari URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+
+            // Jika ada order_id, buka WhatsApp
+            if (orderId) {
+                // Kirim request AJAX untuk mengambil data order dengan orderId
+                $.ajax({
+                    url: `/get-order?orderId=${orderId}`, // Ganti dengan rute yang sesuai di backend
+                    type: 'GET',
+                    success: function(response) {
+                        if (response) {
+                            // Mendapatkan data dari response order
+                            const phoneNumber = '+62' + response.phone;
+                            const firstName = response.first_name;
+                            const lastName = response.last_name;
+                            const totalHarga = response.total;
+
+                            // Membuat pesan WhatsApp dengan informasi order
+                            const message = `Halo ${firstName} ${lastName}, ` +
+                                `Terima kasih atas pesanan Anda! ` +
+                                `Order ID: ${response.code_order} ` +
+                                `Total Harga: ${totalHarga}`;
+
+                            // Membuka link WhatsApp dengan pesan yang sudah dibuat
+                            const whatsappUrl =
+                                `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                            window.open(whatsappUrl, '_blank');
+                        } else {
+                            console.error('Order not found');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Request failed');
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
 
 @section('content')

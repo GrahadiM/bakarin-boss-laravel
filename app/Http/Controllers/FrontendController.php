@@ -299,6 +299,26 @@ class FrontendController extends Controller
         }
     }
 
+    public function getOrder(Request $request)
+    {
+        // Ambil orderId dari parameter query
+        $orderId = $request->input('orderId');
+
+        // Cek apakah orderId ada
+        if (!$orderId) {
+            return response()->json(['error' => 'Order ID is missing'], 400);
+        }
+        $order = Order::where('code_order', $orderId)->first();
+
+        // Cek apakah order ditemukan
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // Jika order ditemukan, kirimkan detail order sebagai respons
+        return response()->json($order);
+    }
+
     public function invoice(Request $request, $id)
     {
         $data['transaksi'] = Order::with('customer')->where([

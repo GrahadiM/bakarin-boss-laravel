@@ -218,10 +218,9 @@ class FrontendController extends Controller
             'gross_amount' => round($atr->total),
         );
 
-        // dd($orders);
         $item_details = [];
         foreach ($orders as $order) {
-            $product = Product::where('id', $order->id)->first();
+            $product = Product::where('id', $order->product_id)->first();
             $item = array(
                 'id'       => $order->id,
                 'price'    => $order->qty * $product->price,

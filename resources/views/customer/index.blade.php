@@ -5,7 +5,7 @@
         /* CSS for Carousel */
         .carousel {
             position: relative;
-            max-width: 600px;
+            max-width: 450px;
             margin: 20% auto !important;
             overflow: hidden;
         }
@@ -21,7 +21,7 @@
         }
 
         .carousel img {
-            width: 100%;
+            width: 450px;
             display: block;
             height: auto;
         }

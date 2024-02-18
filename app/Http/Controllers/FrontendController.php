@@ -267,10 +267,10 @@ class FrontendController extends Controller
         // );
 
         $customer_details = array(
-            'first_name'    => $customer->name,
-            'last_name'     => '',
+            'first_name'    => $atr->first_name,
+            'last_name'     => $atr->last_name,
             'email'         => $customer->email,
-            'phone'         => $customer->phone,
+            'phone'         => $atr->phone,
         );
 
         // Optional, remove this to display all available payment methods
@@ -285,7 +285,7 @@ class FrontendController extends Controller
                 // 'finish'          => route('payments_finish')
             ]
         ];
-        dd($params);
+        // dd($params);
 
         try {
             // Get Snap Payment Page URL

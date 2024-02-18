@@ -46,6 +46,23 @@
         #nextBtn {
             right: 0;
         }
+
+        .image-container {
+            position: relative;
+        }
+
+        .image-description {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            color: white;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.2);
+            /* Warna hitam dengan efek blur 20% */
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
     </style>
 @endsection
 
@@ -104,16 +121,25 @@
                     Semua orang bisa membakar, tetapi kami memberikan rasa dan sensasi
                     <span>Berbeda</span> dari yang biasa orang lain bakar
                 </h1>
-                <p>Please enjoy with our menu !</p>
+                {{-- <p>Please enjoy with our menu !</p> --}}
             </main>
 
             <!-- Carousel Section Start -->
             <section class="carousel">
                 <div class="carousel-container">
                     <div class="carousel-slide">
-                        <img src="{{ asset('product') . '/1.png' }}" alt="Image 1" id="image1">
-                        <img src="{{ asset('product') . '/2.png' }}" alt="Image 2" id="image2">
-                        <img src="{{ asset('product') . '/3.png' }}" alt="Image 3" id="image3">
+                        <div class="image-container">
+                            <img src="{{ asset('product') . '/1.png' }}" alt="Image 1" id="image1">
+                            <div class="image-description">Please enjoy with our menu !</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="{{ asset('product') . '/2.png' }}" alt="Image 2" id="image2">
+                            <div class="image-description">Please enjoy with our menu !</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="{{ asset('product') . '/3.png' }}" alt="Image 3" id="image3">
+                            <div class="image-description">Please enjoy with our menu !</div>
+                        </div>
                     </div>
                 </div>
                 <button id="prevBtn">&lt;</button>

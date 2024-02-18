@@ -83,6 +83,12 @@
                 carouselSlide.style.transition = 'transform 0.5s ease-in-out';
                 carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
             });
+
+            carouselImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    window.location.href = "{{ route('menu') }}";
+                });
+            });
         });
     </script>
 @endsection

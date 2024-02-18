@@ -7,12 +7,12 @@
         </div>
 
         <div class="links">
-            <a href="index.html">Home</a>
-            <a href="about.html">Tentang Kami</a>
-            <a href="menu.html">Menu</a>
-            <a href="products.html">Produk Kami</a>
-            <a href="blog.html">Blog</a>
-            <a href="contact.html">Kontak</a>
+            <a href="{{ route('index') }}" class="{{ (request()->is('/')) ? 'active' : '' }}">Home</a>
+            <a href="{{ route('about') }}" class="{{ (request()->is('/about')) ? 'active' : '' }}">Tentang Kami</a>
+            <a href="{{ route('favorite') }}" class="{{ (request()->is('/favorite')) ? 'active' : '' }}">Menu</a>
+            <a href="{{ route('menu') }}" class="{{ (request()->is('/menu')) ? 'active' : '' }}">Produk Kami</a>
+            <a href="{{ route('blog') }}" class="{{ (request()->is('/blog')) ? 'active' : '' }}">Blog</a>
+            <a href="{{ route('contact') }}" class="{{ (request()->is('/contact')) ? 'active' : '' }}">Kontak</a>
         </div>
 
         <div class="credit">

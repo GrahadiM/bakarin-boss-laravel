@@ -13,6 +13,7 @@ use App\Helper\SettingHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 use App\Services\Midtrans\CreateSnapTokenService;
 
 class FrontendController extends Controller
@@ -39,8 +40,19 @@ class FrontendController extends Controller
         return view('customer.blog', $data);
     }
 
-    public function contact()
+    public function contact(Request $request)
     {
+        // $name = $request->input('name');
+        // $email = $request->input('email');
+        // $whatsappNumber = $request->input('whatsapp_number');
+        // $description = $request->input('description');
+
+        // $url = 'https://wa.me/6285767113554?text=';
+        // $message = "Halo Bakarin Boss, saya $name\nEmail: $email\nNomor Telepon: $whatsappNumber\nDeskripsi: $description";
+        // $encodedMessage = urlencode($message);
+        // $finalUrl = $url . $encodedMessage;
+
+        // return view('customer.contact', compact('finalUrl'));
         return view('customer.contact');
     }
 

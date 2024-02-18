@@ -16,7 +16,7 @@
         }
 
         .carousel-slide {
-            display: flex; /* Tambahkan properti ini untuk memungkinkan pengaturan lebar flex */
+            display: flex;
             min-width: 100%;
         }
 
@@ -64,19 +64,21 @@
 
             carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
 
-            nextBtn.addEventListener('click', () => {
+            function nextImage() {
                 if (counter >= carouselImages.length - 1) {
-                    counter = 0; // Kembali ke gambar pertama jika mencapai gambar terakhir
+                    counter = 0;
                 } else {
                     counter++;
                 }
                 carouselSlide.style.transition = 'transform 0.5s ease-in-out';
                 carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
-            });
+            }
+
+            setInterval(nextImage, 2000);
 
             prevBtn.addEventListener('click', () => {
                 if (counter <= 0) {
-                    counter = carouselImages.length - 1; // Kembali ke gambar terakhir jika mencapai gambar pertama
+                    counter = carouselImages.length - 1;
                 } else {
                     counter--;
                 }

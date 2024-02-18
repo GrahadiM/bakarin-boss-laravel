@@ -18,8 +18,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('code_order');
             $table->bigInteger('total');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->enum('status',['paid','unpaid'])->default('paid');
             $table->enum('payment_status', ['1', '2', '3'])->default('1')->comment('1=menunggu pembayaran, 2=sudah dibayar, 3=kadaluarsa');
             $table->string('link_pembayaran')->nullable();

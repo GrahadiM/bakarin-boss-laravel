@@ -191,8 +191,10 @@ class FrontendController extends Controller
         $order->customer_id = auth()->user()->id;
         $order->total       = (int)$total_price;
         $order->status      = Str::lower('paid');
+        $order->first_name  = Str::ucfirst($request->first_name);
+        $order->last_name   = Str::ucfirst($request->last_name);
         $order->phone       = (int)$request->phone;
-        $order->address     = Str::ucfirst($request->address);
+        // $order->address     = Str::ucfirst($request->address);
         $order->save();
 
         foreach ($carts as $cart) {
@@ -283,7 +285,7 @@ class FrontendController extends Controller
                 // 'finish'          => route('payments_finish')
             ]
         ];
-        // dd($params);
+        dd($params);
 
         try {
             // Get Snap Payment Page URL

@@ -100,13 +100,21 @@
                         <div class="card-body">
                             <h5 class="card-title mb-2">Detail</h5>
                             <div class="mb-2">
-                                <label class="form-label">Phone:</label>
-                                <input type="text" name="phone" class="form-control" required>
+                                <label class="form-label">Nama Depan:</label>
+                                <input type="text" name="first_name" class="form-control" required>
                             </div>
                             <div class="mb-2">
+                                <label class="form-label">Nama Belakang:</label>
+                                <input type="text" name="last_name" class="form-control" required>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">WhatsApp:</label>
+                                <input type="number" name="phone" class="form-control" required>
+                            </div>
+                            {{-- <div class="mb-2">
                                 <label class="form-label">Address:</label>
                                 <input type="text" name="address" class="form-control" required>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card">

@@ -42,17 +42,6 @@ class FrontendController extends Controller
 
     public function contact(Request $request)
     {
-        // $name = $request->input('name');
-        // $email = $request->input('email');
-        // $whatsappNumber = $request->input('whatsapp_number');
-        // $description = $request->input('description');
-
-        // $url = 'https://wa.me/6285767113554?text=';
-        // $message = "Halo Bakarin Boss, saya $name\nEmail: $email\nNomor Telepon: $whatsappNumber\nDeskripsi: $description";
-        // $encodedMessage = urlencode($message);
-        // $finalUrl = $url . $encodedMessage;
-
-        // return view('customer.contact', compact('finalUrl'));
         return view('customer.contact');
     }
 
@@ -244,28 +233,6 @@ class FrontendController extends Controller
             array_push($item_details, $item);
         }
 
-        // Optional
-        // $billing_address = array(
-        //     'first_name'    => "Andri",
-        //     'last_name'     => "Litani",
-        //     'address'       => "Mangga 20",
-        //     'city'          => "Jakarta",
-        //     'postal_code'   => "16602",
-        //     'phone'         => "081122334455",
-        //     'country_code'  => 'IDN'
-        // );
-
-        // Optional
-        // $shipping_address = array(
-        //     'first_name'    => "Obet",
-        //     'last_name'     => "Supriadi",
-        //     'address'       => "Manggis 90",
-        //     'city'          => "Jakarta",
-        //     'postal_code'   => "16601",
-        //     'phone'         => "08113366345",
-        //     'country_code'  => 'IDN'
-        // );
-
         $customer_details = array(
             'first_name'    => $atr->first_name,
             'last_name'     => $atr->last_name,
@@ -285,14 +252,12 @@ class FrontendController extends Controller
                 // 'finish'          => route('payments_finish')
             ]
         ];
-        // dd($params);
 
         try {
             // Get Snap Payment Page URL
             $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
             $atr->link_pembayaran = $paymentUrl;
             $atr->update();
-            // dd($paymentUrl);
             return redirect($paymentUrl);
         } catch (Exception $e) {
             return dd($e->getMessage());

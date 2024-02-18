@@ -11,7 +11,8 @@
             if (name && email && whatsappNumber && description) {
                 var url = "https://wa.me/6285767113554?text=Halo%20Bakarin%20Boss,%20saya%20" + name + "%0AEmail%3A%20" + email + "%0ANomor%20Telepon%3A%20" + whatsappNumber + "%0ADeskripsi%3A%20" + description;
                 window.open(url, "_blank");
-                window.history.back();
+                // window.history.back();
+                window.location.href = {{ route('contact') }};
             } else {
                 console.log(name, email, whatsappNumber, description);
                 alert("Silakan lengkapi semua kolom sebelum mengirim pesan.");

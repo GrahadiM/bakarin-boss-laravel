@@ -111,24 +111,12 @@
                                 <label class="form-label">WhatsApp:</label>
                                 <input type="number" name="phone" class="form-control" required>
                             </div>
-                            {{-- <div class="mb-2">
-                                <label class="form-label">Address:</label>
-                                <input type="text" name="address" class="form-control" required>
-                            </div> --}}
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Total</h5>
                             <ul class="list-group list-group-flush">
-                                {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Subtotal
-                                    <span>$99.99</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Tax
-                                    <span>$9.00</span>
-                                </li> --}}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Pembayaran
                                     <span>{{ "Rp." .number_format($total, 2, ",", ".") }}</span>

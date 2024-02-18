@@ -17,21 +17,6 @@
                 <p class="menu-card-price">{{ "Rp." .number_format($item->product->price, 2, ",", ".") }}</p>
             </div>
             @endforeach
-            {{-- <div class="menu-card">
-                <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
-                <h3 class="menu-card-title">- Mexican Burger -</h3>
-                <p class="menu-card-price">IDR 20K</p>
-            </div>
-            <div class="menu-card">
-                <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
-                <h3 class="menu-card-title">- Mexican Burger -</h3>
-                <p class="menu-card-price">IDR 20K</p>
-            </div>
-            <div class="menu-card">
-                <img src="{{ asset('customer') }}/img/Menu/menu.jpg" alt="Mexican Burger" class="menu-card-img" />
-                <h3 class="menu-card-title">- Mexican Burger -</h3>
-                <p class="menu-card-price">IDR 20K</p>
-            </div> --}}
         </div>
     </section>
     <!-- Menu section end -->

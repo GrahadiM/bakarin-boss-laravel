@@ -141,6 +141,7 @@
                             const whatsappUrl =
                                 `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
                             window.open(whatsappUrl, '_blank');
+                            window.location.href = {{ route('index') }};
                         } else {
                             console.error('Order not found');
                         }
@@ -163,7 +164,6 @@
                     Semua orang bisa membakar, tetapi kami memberikan rasa dan sensasi
                     <span>Berbeda</span> dari yang biasa orang lain bakar
                 </h1>
-                {{-- <p>Please enjoy with our menu !</p> --}}
             </main>
 
             <!-- Carousel Section Start -->

@@ -60,7 +60,6 @@ class FrontendController extends Controller
                 $data['products']->push($product);
             }
         }
-        // $data['menu'] = OrderProduct::orderByDesc('qty')->take(4)->get();
 
         return view('customer.favorite', $data);
     }
@@ -152,8 +151,6 @@ class FrontendController extends Controller
 
         $data['snapToken'] = $data['order']->snap_token;
         if (is_null($data['snapToken'])) {
-            // Jika snap token masih NULL, buat token snap dan simpan ke database
-
             $midtrans = new CreateSnapTokenService($data['order']);
             $data['snapToken'] = $midtrans->getSnapToken();
 
@@ -194,8 +191,6 @@ class FrontendController extends Controller
             $orderProd->save();
 
             Cart::destroy($cart->id);
-            // $cart_id = Cart::find($cart->id);
-            // $cart_id->delete();
         }
 
         return redirect()->route('payment', $order->id);
@@ -213,6 +208,7 @@ class FrontendController extends Controller
         Config::$serverKey = SettingHelper::midtrans_api();
         // Uncomment for production environment
         // Config::$isProduction = true;
+        // Uncomment for sanbox environment
         Config::$isSanitized = Config::$is3ds = true;
         Config::$overrideNotifUrl = route('midtrans_notify');
 

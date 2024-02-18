@@ -106,7 +106,7 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->code_order }}</td>
-                                        <td>{{ $order->customer->name }}</td>
+                                        <td>{{ $order->first_name.' '.$order->last_name }}</td>
                                         <td>{{ $order->phone }}</td>
                                         <td>{{ "Rp." .number_format($order->total, 2, ",", ".") }}</td>
                                         <td><button type="button" class="btn btn-success" disabled>{{ Str::upper($order->status) }}</button></td>

@@ -121,7 +121,7 @@
             if (orderId) {
                 // Kirim request AJAX untuk mengambil data order dengan orderId
                 $.ajax({
-                    url: `/get-order?orderId=${orderId}`, // Ganti dengan rute yang sesuai di backend
+                    url: `/get-order?orderId=${orderId}`,
                     type: 'GET',
                     success: function(response) {
                         if (response) {

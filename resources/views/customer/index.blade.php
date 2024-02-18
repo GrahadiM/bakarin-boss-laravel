@@ -141,7 +141,7 @@
                             const whatsappUrl =
                                 `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
                             window.open(whatsappUrl, '_blank');
-                            window.location.href = {{ route('index') }};
+                            window.location.href = "{{ route('index') }}";
                         } else {
                             console.error('Order not found');
                         }

@@ -186,7 +186,7 @@ class FrontendController extends Controller
         foreach ($carts as $cart) {
             $orderProd              = new OrderProduct;
             $orderProd->order_id    = $order->id;
-            $orderProd->product_id  = $cart->id;
+            $orderProd->product_id  = $cart->product_id;
             $orderProd->qty         = $cart->qty;
             $orderProd->save();
 

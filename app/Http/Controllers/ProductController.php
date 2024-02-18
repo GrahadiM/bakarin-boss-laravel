@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        $products   = Product::all();
+        $orders     = Order::with('customer')->get();
+        return view('products.index', compact('products','orders'));
     }
 
     /**

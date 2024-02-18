@@ -22,7 +22,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-10">
-                <h1 class="text-light mb-4">Data Product</h1>
+                <h1 class="text-light mb-4">Data Produk</h1>
             </div>
             <div class="col-lg-2 text-end">
                 <a href="{{ route('logout') }}" class="btn btn-outline-danger mb-3" onclick="event.preventDefault();
@@ -32,10 +32,10 @@
                 </form>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Products</div>
+                    <div class="card-header">Produk</div>
 
                     <div class="card-body">
                         <!-- Button to trigger modal for create product -->
@@ -45,8 +45,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
+                                    <th>Nama</th>
+                                    <th>Harga</th>
                                     <th>Thumbnail</th>
                                     <th>Action</th>
                                 </tr>
@@ -71,6 +71,45 @@
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                             </form>
                                         </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10">
+                <h1 class="text-light mb-4">Riwayat Transaksi</h1>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Transaksi</div>
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kode</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td>{{ $order->id }}</td>
+                                        <td>{{ $order->code_order }}</td>
+                                        <td>{{ $order->customer->name }}</td>
+                                        <td>{{ $order->phone }}</td>
+                                        <td>{{ "Rp." .number_format($order->total, 2, ",", ".") }}</td>
+                                        <td><button type="button" class="btn btn-success" disabled>{{ Str::upper($order->status) }}</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>

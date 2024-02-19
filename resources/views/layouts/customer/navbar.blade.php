@@ -1,6 +1,6 @@
 <!-- Navbar start -->
 <nav class="navbar" x-data>
-    <a href="#" class="navbar-logo">Bakarin<span>Boss</span>.</a>
+    <a href="{{ route('index') }}" class="navbar-logo">Bakarin<span>Boss</span>.</a>
 
     <div class="navbar-nav">
         <a href="{{ route('index') }}" class="{{ (request()->is('/')) ? 'active' : '' }}">Home</a>
@@ -16,9 +16,7 @@
             <i class="fa fas fa-shopping-cart"></i>
         </a>
         @auth
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-                         document.getElementById('logout-form').submit();">
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="fa fas fa-user"></i>
         </a>
 

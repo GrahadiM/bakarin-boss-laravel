@@ -125,11 +125,11 @@ class FrontendController extends Controller
     public function minus_cart(Request $request)
     {
         $data       = Cart::where('customer_id', Auth::user()->id)->where('id', $request->id)->first();
-        if ($data->qty > 0) {
+        if ($data->qty <= 1) {
+            $data->delete();
+        } else {
             $data->qty  = $data->qty - 1;
             $data->save();
-        } else {
-            $data->delete();
         }
 
         return redirect()->back();
@@ -220,9 +220,10 @@ class FrontendController extends Controller
         $item_details = [];
         foreach ($orders as $order) {
             $product = Product::where('id', $order->product_id)->first();
+            // $price = $order->qty*$product->price;
             $item = array(
                 'id'       => $order->id,
-                'price'    => $order->qty * $product->price,
+                'price'    => $product->price,
                 'quantity' => $order->qty,
                 'name'     => $product->name
             );
@@ -248,6 +249,7 @@ class FrontendController extends Controller
                 // 'finish'          => route('payments_finish')
             ]
         ];
+        // dd($params);
 
         try {
             // Get Snap Payment Page URL

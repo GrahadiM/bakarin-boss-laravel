@@ -48,9 +48,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kategori</th>
                                     <th>Nama</th>
                                     <th>Harga</th>
                                     <th>Thumbnail</th>
+                                    <th>Deskripsi</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -58,6 +60,7 @@
                                 @foreach ($products as $product)
                                     <tr>
                                         <td>{{ $product->id }}</td>
+                                        <td>{{ $product->category->name }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>
@@ -67,6 +70,7 @@
                                                     alt="{{ $product->name }}" class="img-fluid" width="80" />
                                             </a>
                                         </td>
+                                        <td>{{ $product->desc }}</td>
                                         <td>
                                             <!-- Button to trigger modal for edit product -->
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
@@ -102,6 +106,13 @@
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
+                            <label for="categoryName" class="form-label">Kategori</label>
+                            <select name="category_id" class="form-control" id="categoryName" required>
+                                <option value="1">Makanan</option>
+                                <option value="2">Minuman</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="productName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="productName" name="name" required>
                         </div>
@@ -113,6 +124,11 @@
                             <label for="productThumbnail" class="form-label">Thumbnail</label>
                             <input type="file" class="form-control" id="productThumbnail" name="thumbnail"
                                 accept="image/*" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDesc" class="form-label">Name</label>
+                            <textarea name="desc" class="form-control" id="productDesc" rows="5" required></textarea>
+                            {{-- <input type="text" class="form-control" id="productDesc" name="desc" required> --}}
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

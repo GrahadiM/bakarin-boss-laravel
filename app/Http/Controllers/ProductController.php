@@ -56,9 +56,10 @@ class ProductController extends Controller
             $data->thumbnail = $data->thumbnail;
         }
 
+        $data->category_id  = $request->category_id;
         $data->name         = $request->name;
         $data->price        = $request->price;
-        $data->desc         = $desc;
+        $data->desc         = $request->desc == NULL ? $request->desc : $desc;
 
         $data->save();
 
@@ -112,9 +113,10 @@ class ProductController extends Controller
             $data->thumbnail = $nameImage;
         }
 
+        $data->category_id  = $request->category_id;
         $data->name         = $request->name;
         $data->price        = $request->price;
-        $data->desc         = $desc;
+        $data->desc         = $request->desc == NULL ? $request->desc : $desc;
 
         $data->save();
 

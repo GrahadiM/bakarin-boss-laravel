@@ -109,28 +109,28 @@ class ProductSeeder extends Seeder
             'desc'        => $desc,
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => 2,
             'name'        => 'Ice Teh Tarik',
             'thumbnail'   => 'Ice Teh Tarik.png',
             'price'       => 10000,
             'desc'        => $desc,
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => 2,
             'name'        => 'Ice Coklat',
             'thumbnail'   => 'Ice Coklat.png',
             'price'       => 10000,
             'desc'        => $desc,
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => 2,
             'name'        => 'Ice Matcha',
             'thumbnail'   => 'Ice Matcha.png',
             'price'       => 10000,
             'desc'        => $desc,
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => 2,
             'name'        => 'Hot Coffee',
             'thumbnail'   => 'Hot Coffee.png',
             'price'       => 5000,

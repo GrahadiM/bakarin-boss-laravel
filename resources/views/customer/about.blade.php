@@ -10,7 +10,6 @@
                 <img src="{{ asset('customer') }}/img/menu2.jpg" alt="Tentang Kami" />
             </div>
             <div class="content">
-                <h3>Kenapa Memilih Menu kami?</h3>
                 <h3>Selamat datang di Bakarin Boss,</h3>
                 <p>
                     Tempat paling asyik untuk menikmati sajian bakar-bakaran yang
@@ -27,6 +26,11 @@
                     sensasi bakaran yang menggoda di Bakarin Boss, di mana setiap
                     gigitan adalah perjalanan rasa yang tak terlupakan.
                 </p>
+               <br> <p>Sejak berdiri pada 2 September 2020, Bakarin Boss telah menjadi rumah bagi para pecinta bakaran yang mencari pengalaman kuliner yang istimewa. 
+                    Kami mengusung semangat inovasi dalam setiap hidangan bakar-bakaran yang kami sajikan, menciptakan harmoni cita rasa yang memikat. 
+                    Di sini, kami tidak hanya menghidangkan makanan lezat, tetapi juga mengajak Anda untuk merasakan cerita dan dedikasi kami dalam setiap sajian. 
+                    Bakarin Boss bukan hanya sebuah kedai, tapi merupakan bagian dari perjalanan gastronomi Anda, memberikan pengalaman yang tiada duanya. 
+                    Bersama Bakarin Boss, mari jelajahi dunia rasa melalui menu bakar-bakaran yang penuh kejutan!</p>
             </div>
         </div>
     </section>

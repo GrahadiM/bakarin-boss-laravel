@@ -60,8 +60,8 @@
     <section id="blog" class="blog">
         <h2><span>New</span> News</h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex, aspernatur
-            accusantium. Quidem ab aliquid corporis.
+            Nikmati sensasi makanan Bakarin Boss sambil membaca berita terkini dari BBC! Temukan berita terupdate sambil menikmati ragam menu bakar-bakaran kami yang menggoda. 
+            Selamat menikmati artikel dan hidangan kami yang lezat!
         </p>
         <div class="row">
             @foreach ($articles as $article)

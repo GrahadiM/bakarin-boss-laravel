@@ -10,7 +10,7 @@
             <div class="content" style="padding-left: 25px;">
                 <h3>{{ $item->name }}</h3>
                 <p>{{ "Rp." .number_format($item->price, 2, ",", ".") }}</p>
-s            </div>
+                 </div>
         </div>
     </section>
     <!-- Menu Detail section end-->

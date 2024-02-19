@@ -5,8 +5,8 @@
     <section class="products" id="products">
         <h2><span>Daftar</span> Produk</h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ratione,
-            temporibus cum laboriosam sunt eligendi.
+            Selamat datang di daftar menu Bakarin Boss! Temukan pilihan bakar-bakaran yang memikat hati dan lidah Anda, 
+            serta rasakan kelezatan yang tak terlupakan di setiap sajian.
         </p>
 
         <div class="row">

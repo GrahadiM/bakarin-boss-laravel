@@ -5,8 +5,8 @@
     <section id="menu" class="menu">
         <h2><span>Menu</span> Favorite</h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex, aspernatur
-            accusantium. Quidem ab aliquid corporis.
+            Temukan menu favorit Bakarin Boss yang selalu menjadi pilihan utama para pelanggan setia kami. 
+            Nikmati kelezatan tiada tara dan kepuasan yang tak terlupakan di setiap gigitan.
         </p>
 
         <div class="row">

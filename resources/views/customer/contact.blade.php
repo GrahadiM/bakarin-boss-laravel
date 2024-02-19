@@ -25,7 +25,8 @@
     <!-- Contact Section start -->
     <section id="contact" class="contact">
         <h2><span>Kontak</span> Kami</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, tempore.</p>
+        <p>Kami di Bakarin Boss senantiasa menghargai masukan dari pelanggan. Kritik dan saran Anda sangat berarti bagi kami dalam meningkatkan layanan kami. 
+            Jangan ragu untuk berbagi pendapat Anda melalui formulir kontak atau info kontak yang tersedia.</p>
 
         <div class="row">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.7897278742453!2d106.8829223763819!3d-6.158910293828278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5ca5fa65ff1%3A0xafe23d29167e2e69!2sBakarin%20Boss!5e0!3m2!1sid!2sid!4v1699441826589!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
@@ -45,7 +46,7 @@
                 </div>
                 <div class="input-grup">
                     <i data-feather="message-circle"></i>
-                    <input type="text" name="description" placeholder="Deskripsi" value="{{ old('description') }}" required />
+                    <input type="text" name="description" placeholder="Isi Pesan" value="{{ old('description') }}" required />
                 </div>
                 <button type="button" class="btn" onclick="openWhatsApp()">Kirim Pesan</button>
             </form>

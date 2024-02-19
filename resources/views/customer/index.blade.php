@@ -171,15 +171,15 @@
                 <div class="carousel-container">
                     <div class="carousel-slide">
                         <div class="image-container">
-                            <img src="{{ asset('product') . '/1.png' }}" alt="Image 1" id="image1">
+                            <img src="{{ asset('product') . '/Baso Bakar.png' }}" alt="Image 1" id="image1">
                             <div class="image-description">Please enjoy with our menu !</div>
                         </div>
                         <div class="image-container">
-                            <img src="{{ asset('product') . '/2.png' }}" alt="Image 2" id="image2">
+                            <img src="{{ asset('product') . '/Kentang Goreng.png' }}" alt="Image 2" id="image2">
                             <div class="image-description">Please enjoy with our menu !</div>
                         </div>
                         <div class="image-container">
-                            <img src="{{ asset('product') . '/3.png' }}" alt="Image 3" id="image3">
+                            <img src="{{ asset('product') . '/Ice Matcha.png' }}" alt="Image 3" id="image3">
                             <div class="image-description">Please enjoy with our menu !</div>
                         </div>
                     </div>

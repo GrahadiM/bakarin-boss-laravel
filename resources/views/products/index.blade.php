@@ -25,8 +25,10 @@
                 <h1 class="text-light mb-4">Data Produk</h1>
             </div>
             <div class="col-lg-2 text-end">
-                <a href="{{ route('logout') }}" class="btn btn-outline-danger mb-3" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();"><i class="fa fas fa-user"></i> Logout</a>
+                <a href="{{ route('logout') }}" class="btn btn-outline-danger mb-3"
+                    onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();"><i
+                        class="fa fas fa-user"></i> Logout</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
@@ -39,7 +41,8 @@
 
                     <div class="card-body">
                         <!-- Button to trigger modal for create product -->
-                        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createProductModal">Add Product</button>
+                        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                            data-bs-target="#createProductModal">Add Product</button>
 
                         <table class="table">
                             <thead>
@@ -58,14 +61,18 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>
-                                            <a href="{{ asset('product') .'/'. $product->thumbnail }}" target="_blank" rel="noopener noreferrer">
-                                                <img src="{{ asset('product') .'/'. $product->thumbnail }}" alt="{{ $product->name }}" class="img-fluid" width="80" />
+                                            <a href="{{ asset('product') . '/' . $product->thumbnail }}" target="_blank"
+                                                rel="noopener noreferrer">
+                                                <img src="{{ asset('product') . '/' . $product->thumbnail }}"
+                                                    alt="{{ $product->name }}" class="img-fluid" width="80" />
                                             </a>
                                         </td>
                                         <td>
                                             <!-- Button to trigger modal for edit product -->
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal{{ $product->id }}">Edit</button>
-                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editProductModal{{ $product->id }}">Edit</button>
+                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                                                style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -79,6 +86,82 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Modal for create product -->
+    <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createProductModalLabel">Add Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form for creating product -->
+                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="productName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="productPrice" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productThumbnail" class="form-label">Thumbnail</label>
+                            <input type="file" class="form-control" id="productThumbnail" name="thumbnail"
+                                accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for edit product -->
+    @foreach ($products as $product)
+        <div class="modal fade" id="editProductModal{{ $product->id }}" tabindex="-1"
+            aria-labelledby="editProductModalLabel{{ $product->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProductModalLabel{{ $product->id }}">Edit Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form for editing product -->
+                        <form action="{{ route('products.update', $product->id) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <div class="mb-3">
+                                <label for="editProductName{{ $product->id }}" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="editProductName{{ $product->id }}"
+                                    name="name" value="{{ $product->name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductPrice{{ $product->id }}" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="editProductPrice{{ $product->id }}"
+                                    name="price" value="{{ $product->price }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductThumbnail{{ $product->id }}" class="form-label">Thumbnail</label>
+                                <input type="file" class="form-control" id="editProductThumbnail{{ $product->id }}"
+                                    name="thumbnail" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <div class="container mt-5">
         <div class="row">
             <div class="col-lg-10">
                 <h1 class="text-light mb-4">Riwayat Transaksi</h1>
@@ -106,10 +189,11 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->code_order }}</td>
-                                        <td>{{ $order->first_name.' '.$order->last_name }}</td>
+                                        <td>{{ $order->first_name . ' ' . $order->last_name }}</td>
                                         <td>{{ $order->phone }}</td>
-                                        <td>{{ "Rp." .number_format($order->total, 2, ",", ".") }}</td>
-                                        <td><button type="button" class="btn btn-success" disabled>{{ Str::upper($order->status) }}</button></td>
+                                        <td>{{ 'Rp.' . number_format($order->total, 2, ',', '.') }}</td>
+                                        <td><button type="button" class="btn btn-success"
+                                                disabled>{{ Str::upper($order->status) }}</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -119,70 +203,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal for create product -->
-    <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createProductModalLabel">Add Product</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form for creating product -->
-                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="productName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="productName" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="productPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="productPrice" name="price" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="productThumbnail" class="form-label">Thumbnail</label>
-                            <input type="file" class="form-control" id="productThumbnail" name="thumbnail" accept="image/*" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for edit product -->
-    @foreach ($products as $product)
-        <div class="modal fade" id="editProductModal{{ $product->id }}" tabindex="-1" aria-labelledby="editProductModalLabel{{ $product->id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editProductModalLabel{{ $product->id }}">Edit Product</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Form for editing product -->
-                        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <div class="mb-3">
-                                <label for="editProductName{{ $product->id }}" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="editProductName{{ $product->id }}" name="name" value="{{ $product->name }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editProductPrice{{ $product->id }}" class="form-label">Price</label>
-                                <input type="number" class="form-control" id="editProductPrice{{ $product->id }}" name="price" value="{{ $product->price }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editProductThumbnail{{ $product->id }}" class="form-label">Thumbnail</label>
-                                <input type="file" class="form-control" id="editProductThumbnail{{ $product->id }}" name="thumbnail" accept="image/*">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
 @endsection

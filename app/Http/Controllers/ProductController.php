@@ -59,7 +59,7 @@ class ProductController extends Controller
         $data->category_id  = $request->category_id;
         $data->name         = $request->name;
         $data->price        = $request->price;
-        $data->desc         = $request->desc == NULL ? $request->desc : $desc;
+        $data->desc         = $request->desc == NULL ? $desc : $request->desc;
 
         $data->save();
 
@@ -116,7 +116,7 @@ class ProductController extends Controller
         $data->category_id  = $request->category_id;
         $data->name         = $request->name;
         $data->price        = $request->price;
-        $data->desc         = $request->desc == NULL ? $request->desc : $desc;
+        $data->desc         = $request->desc == NULL ? $desc : $request->desc;
 
         $data->save();
 

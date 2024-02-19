@@ -126,9 +126,8 @@
                                 accept="image/*" required>
                         </div>
                         <div class="mb-3">
-                            <label for="productDesc" class="form-label">Name</label>
+                            <label for="productDesc" class="form-label">Deskripsi</label>
                             <textarea name="desc" class="form-control" id="productDesc" rows="5" required></textarea>
-                            {{-- <input type="text" class="form-control" id="productDesc" name="desc" required> --}}
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -155,6 +154,14 @@
                             @method('PUT')
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <div class="mb-3">
+                                <label for="categoryName{{ $product->id }}" class="form-label">Kategori</label>
+                                <select name="category_id" class="form-control" id="categoryName{{ $product->id }}" required>
+                                    <option value="{{ $product->category_id }}">{{ $product->category->name }}</option>
+                                    <option value="1">Makanan</option>
+                                    <option value="2">Minuman</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="editProductName{{ $product->id }}" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="editProductName{{ $product->id }}"
                                     name="name" value="{{ $product->name }}" required>
@@ -168,6 +175,10 @@
                                 <label for="editProductThumbnail{{ $product->id }}" class="form-label">Thumbnail</label>
                                 <input type="file" class="form-control" id="editProductThumbnail{{ $product->id }}"
                                     name="thumbnail" accept="image/*">
+                            </div>
+                            <div class="mb-3">
+                                <label for="productDesc{{ $product->id }}" class="form-label">Deskripsi</label>
+                                <textarea name="desc" class="form-control" id="productDesc{{ $product->id }}" rows="5" required>{{ $product->desc }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
